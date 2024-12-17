@@ -1,0 +1,24 @@
+services:
+  wrf:
+    image: wrf-docker:1.0
+    stdin_open: true
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: wrf-docker
+    restart: "no"
+    networks:
+      contenedor:
+        ipv4_address: 10.15.3.22
+    volumes:
+      - ./home:/home
+volumes:
+  home: {}
+  
+networks:
+  contenedor:
+    ipam:
+      config:
+        - subnet: 10.15.3.20/30
+          gateway: 10.15.3.21
