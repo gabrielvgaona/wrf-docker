@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 #RUN apt install -y file
 RUN apt install -y file build-essential curl perl libopenmpi-dev libhdf5-openmpi-dev libxml2-dev libnetcdff-dev
 # netcdf-bin  libpng-dev
-RUN apt -y install mpich
+#RUN apt -y install mpich
 
 # Set ENV
 RUN mkdir -p /Build_WRF/LIBRARIES
@@ -80,15 +80,15 @@ ENV LD_LIBRARY_PATH $DIR/netcdf/lib:$LD_LIBRARY_PATH
 
 
 # Build MPICH, so slow that we use the pre built binary in official repo
-#RUN apt install -y python3
-#RUN cd $DIR \
-#&& wget https://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
-#&& tar xzvf mpich-4.0.2.tar.gz \
-#&& cd mpich-4.0.2 
-#&& ./configure --prefix=$DIR/mpich FFLAGS=-fallow-argument-mismatch FCFLAGS=-fallow-argument-mismatch \
-#&& make -j $J \
-#&& make install
-#ENV PATH $DIR/mpich/bin:$PATH
+RUN apt install -y python3
+RUN cd $DIR \
+&& wget https://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
+&& tar xzvf mpich-4.0.2.tar.gz \
+&& cd mpich-4.0.2 \
+&& ./configure --prefix=$DIR/mpich FFLAGS=-fallow-argument-mismatch FCFLAGS=-fallow-argument-mismatch \
+&& make -j $J \
+&& make install
+ENV PATH $DIR/mpich/bin:$PATH
 
 # Build libpng
 RUN cd $DIR \
@@ -133,7 +133,7 @@ RUN cd $DIR \
 
 # Build WPS
 RUN cd $DIR/WPS-4.6.0 \
- &&  (printf "1\n" && cat) | ./configure
+ &&  (printf "3\n" && cat) | ./configure
 RUN cd $DIR/WPS-4.6.0 \
  && sed -i "s/CONFIGURE_COMPAT_FLAGS//" configure.wps \
  && ./compile
