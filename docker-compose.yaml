@@ -1,12 +1,12 @@
 services:
   wrf:
-    image: wrf-docker:1.0
+    image: curso-wrf:1.2
     stdin_open: true
     tty: true
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: wrf-docker
+    container_name: wrf-latest
     restart: "no"
     networks:
       contenedor:
