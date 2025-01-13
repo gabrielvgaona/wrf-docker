@@ -1,5 +1,7 @@
 ---
-
+title: "Guía de comandos para el curso de WRF en HPC-CEDIA"
+format: pdf
+date: 2025-01-13
 ---
 
 # Instrucciones para acceso al cluster del CEDIA
@@ -14,7 +16,7 @@ NOTA: Esto se debe hacer desde la computadora donde se creó la llave ssh de su 
 
 # Reservar recursos para trabajar
 
-Para reservar recursos para trabajar en el cluster del CEDIA se debe ejecutar el siguiente comando:
+EL HPC-CEDIA tiene diferentes nodos para conectarse. Debes aprender un poco en la guía de conexión para que puedas solicitar los recursos para tu sesión. Para reservar recursos para trabajar en el cluster del CEDIA se debe ejecutar el siguiente comando:
 
 ```bash
 salloc -p cpu -n 2 -c 2  --mem=8GB --time=01:00:00
@@ -111,4 +113,78 @@ Antes de modelar debemos configurar algunas cosas para el pre-procesamiento.
 
 ```bash
 cd /WRF_ins/WPS
+wget .... Enlace de Github
+nano namelist.wps
 ```
+buscar la línea del parámetro `geog_data_path` y poner la ruta de los datos geográficos obligatorios para WPS. En mi caso sería: `'/root/geo_data/WPS_GEOG'`.
+
+```
+geog_data_path = '/root/geo_data/WPS_GEOG',
+```
+
+Para guardar los cambios presiona `[Ctrl]` + `[o]` y luego `[Ctrl]` + `[x]` para salir.
+
+## Configurar WRF
+
+De la misma manera, debemos agregar el fichero `namelist.input` en el directorio de `WRF`. Para hacer esto sigue estos pasos. En este paso te recomiendo revisar el artículo de [Bendix y Trachte (2015)](https://eva.ikiam.edu.ec/pluginfile.php/5056/mod_resource/content/3/trachte_bendix_WRF_Beck_etal_2017.pdf) y la [guía del NCAR](https://www2.mmm.ucar.edu/wrf/users/wrf_users_guide/build/html/namelist_variables.html#physics), para entender los parámetros del modelo. En etse caso también hemos preparado un fichero para el ejercicio de este curso.
+
+```bash
+cd /WRF_ins/WRF/run
+wget .... Enlace de Github
+```
+
+## Ejecutar el Preprocesamiento
+
+1. Ejecutar geogrid.exe
+
+```bash
+cd /WRF_ins/WPS
+./geogrid.exe
+```
+
+2. Crear enlaces simbólicos del los geogrids que se crearon a las condiciones de borde. Previamente debes conocer donde están los ficheros fnl: 
+
+```bash
+./link_grib.csh /home/gabriel.gaona__ikiam.edu.ec/geo_data/boundary-conditions/100/fnl_*
+```
+
+3. Crear enlaces simbólicos a las tablas de variables de los datos de condiciones de borde en formato grib. En este caso usaremos datos de GFS por lo tanto tenemos que asegurarnos que sean las tablas para GFS. 
+
+```bash
+ln -sf ungrib/Variable_Tables/Vtable.GFS Vtable
+```
+
+4. Extraer las variables necesarias desde los ficheros grib de las condiciones de contorno
+
+```bash
+./ungrib.exe
+```
+
+5. Interpolar verticalmente las condiciones de contorno a distintos niveles de altitud.
+
+```bash
+./metgrid.exe
+```
+
+## Ejecutar el modelamiento
+
+Crear enlaces simbólicos hacia el mallado con las condiciones de borde (ficheros met creados con metgrid.exe).
+
+```bash
+cd WRF_inst/WRF/run
+ln -sf /WRF_inst/WPS/met_em*
+```
+
+Ejecutar las configuraciones para simulación de un evento real. Este paso puede tomar un tiempo considerable dependiendo de los recursos que haya reservado en el cluster.
+
+```bash
+./real.exe
+```
+
+Ejecutar el modelo para todas las configuraciones realizadas. Ejecutar las configuraciones para simulación de un evento real. Este paso puede tomar un tiempo bastante largo, dependiendo de los recursos que haya reservado en el cluster.
+
+```bash
+./wrf.exe
+```
+
+
