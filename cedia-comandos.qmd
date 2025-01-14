@@ -178,7 +178,7 @@ Crear enlaces simbólicos hacia el mallado con las condiciones de borde (fichero
 
 ```bash
 cd WRF_ins/WRF/run
-ln -sf /WRF_ins/WPS/met_em*
+ln -sf /WRF_ins/WPS/met_em* .
 ```
 
 Ejecutar las configuraciones para simulación de un evento real. **Este paso puede tomar un tiempo considerable**, dependiendo de los recursos que haya reservado en el cluster.
