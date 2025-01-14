@@ -100,9 +100,9 @@ csh rda-download_1.csh
 ## Descargar datos geográficos para WPS
 
 ```bash
-cd /home/gabriel.gaona__ikiam.edu.ec/geo_data
+cd /home/gabriel.gaona__ikiam.edu.ec/geodata
 wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-tar -xvfz geog_high_res_mandatory.tar.gz
+tar -xvf geog_high_res_mandatory.tar.gz
 ```
 
 ## Configurar WPS
@@ -113,13 +113,14 @@ Antes de modelar debemos configurar algunas cosas para el pre-procesamiento.
 
 ```bash
 cd /WRF_ins/WPS
-wget .... Enlace de Github
+mv namelist.wps namelist.wps.bkp
+wget -O namelist.wps https://raw.githubusercontent.com/gabrielvgaona/wrf-docker/refs/heads/main/home/namelist_wps_ejercicio.wps
 nano namelist.wps
 ```
-buscar la línea del parámetro `geog_data_path` y poner la ruta de los datos geográficos obligatorios para WPS. En mi caso sería: `'/root/geo_data/WPS_GEOG'`.
+buscar la línea del parámetro `geog_data_path` y poner la ruta de los datos geográficos obligatorios para WPS. En mi caso sería: `'/root/geodata/WPS_GEOG'`.
 
 ```
-geog_data_path = '/root/geo_data/WPS_GEOG',
+geog_data_path = '/root/geodata/WPS_GEOG',
 ```
 
 Para guardar los cambios presiona `[Ctrl]` + `[o]` y luego `[Ctrl]` + `[x]` para salir.
@@ -130,7 +131,8 @@ De la misma manera, debemos agregar el fichero `namelist.input` en el directorio
 
 ```bash
 cd /WRF_ins/WRF/run
-wget .... Enlace de Github
+mv namelist.input namelist.input.bkp
+wget -O namelist.input https://raw.githubusercontent.com/gabrielvgaona/wrf-docker/refs/heads/main/home/namelist_wrf_ejercicio.txt
 ```
 
 ## Ejecutar el Preprocesamiento
@@ -145,7 +147,7 @@ cd /WRF_ins/WPS
 2. Crear enlaces simbólicos del los geogrids que se crearon a las condiciones de borde. Previamente debes conocer donde están los ficheros fnl: 
 
 ```bash
-./link_grib.csh /home/gabriel.gaona__ikiam.edu.ec/geo_data/boundary-conditions/100/fnl_*
+./link_grib.csh /home/gabriel.gaona__ikiam.edu.ec/geodata/boundary-conditions/100/fnl_*
 ```
 
 3. Crear enlaces simbólicos a las tablas de variables de los datos de condiciones de borde en formato grib. En este caso usaremos datos de GFS por lo tanto tenemos que asegurarnos que sean las tablas para GFS. 
@@ -187,4 +189,37 @@ Ejecutar el modelo para todas las configuraciones realizadas. Ejecutar las confi
 ./wrf.exe
 ```
 
+# Postprocesamiento
+
+En este punto ya debes tener listo un resultado del modelamiento para que puedas analizar. Empecemos copiando los resultados entre diferentes sesiones.
+
+## Copiar resultado WRF al home del usuario en CEDIA.
+
+Dentro de la instancia `wrf` debes ejecutar el comando cp para hacer una copia de los resultados del modelo a tu home compartido:
+
+```bash
+mkdir /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
+cd /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
+cp WRF_inst/WRF/run/wrfout_* .
+```
+
+## Copiar desde host remoto (cedia) a la máquina local
+
+Esto es diferente entre MS Windows y GNU/Linux. Intentaremos explicar cada uno por separado
+
+- Copiar archivos usando GNU/Linux
+
+```bash 
+cd ruta/a/directorio/local #poner la ruta del directorio local
+scp gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida/wrfout_* .
+```
+- Copiar archivos usando Windows
+    + Abrir una sesión ssh en PuTTY. Asegúrese de activar la opción 
+    + 
+
+```bash 
+cd ruta/a/directorio/local #poner la ruta del directorio local
+
+pscp gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida/wrfout_* .
+```
 
