@@ -4,6 +4,10 @@ format: pdf
 date: 2025-01-13
 ---
 
+:::{.callout-note}
+
+:::
+
 # Instrucciones para acceso al cluster del CEDIA
 
 Conectarse al HPC usando ssh: en windows se debe usar putty, en GNU/Linux se debe ssh en el terminal
@@ -147,7 +151,7 @@ cd /WRF_ins/WPS
 2. Crear enlaces simbólicos del los geogrids que se crearon a las condiciones de borde. Previamente debes conocer donde están los ficheros fnl: 
 
 ```bash
-./link_grib.csh /home/gabriel.gaona__ikiam.edu.ec/geodata/boundary-conditions/100/fnl_*
+./link_grib.csh /root/geodata/boundary-conditions/100/fnl_*
 ```
 
 3. Crear enlaces simbólicos a las tablas de variables de los datos de condiciones de borde en formato grib. En este caso usaremos datos de GFS por lo tanto tenemos que asegurarnos que sean las tablas para GFS. 
@@ -173,17 +177,17 @@ ln -sf ungrib/Variable_Tables/Vtable.GFS Vtable
 Crear enlaces simbólicos hacia el mallado con las condiciones de borde (ficheros met creados con metgrid.exe).
 
 ```bash
-cd WRF_inst/WRF/run
-ln -sf /WRF_inst/WPS/met_em*
+cd WRF_ins/WRF/run
+ln -sf /WRF_ins/WPS/met_em*
 ```
 
-Ejecutar las configuraciones para simulación de un evento real. Este paso puede tomar un tiempo considerable dependiendo de los recursos que haya reservado en el cluster.
+Ejecutar las configuraciones para simulación de un evento real. **Este paso puede tomar un tiempo considerable**, dependiendo de los recursos que haya reservado en el cluster.
 
 ```bash
 ./real.exe
 ```
 
-Ejecutar el modelo para todas las configuraciones realizadas. Ejecutar las configuraciones para simulación de un evento real. Este paso puede tomar un tiempo bastante largo, dependiendo de los recursos que haya reservado en el cluster.
+Ejecutar el modelo para todas las configuraciones realizadas. Ejecutar las configuraciones para simulación de un evento real. **Este paso puede tomar un tiempo bastante largo**, dependiendo de los recursos que haya reservado en el cluster.
 
 ```bash
 ./wrf.exe
@@ -200,7 +204,7 @@ Dentro de la instancia `wrf` debes ejecutar el comando cp para hacer una copia d
 ```bash
 mkdir /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
 cd /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
-cp WRF_inst/WRF/run/wrfout_* .
+cp WRF_ins/WRF/run/wrfout_* .
 ```
 
 ## Copiar desde host remoto (cedia) a la máquina local
