@@ -211,18 +211,25 @@ cp WRF_ins/WRF/run/wrfout_* .
 
 Esto es diferente entre MS Windows y GNU/Linux. Intentaremos explicar cada uno por separado
 
-- Copiar archivos usando GNU/Linux
+- Copiar archivos desde GNU/Linux
 
 ```bash 
 cd ruta/a/directorio/local #poner la ruta del directorio local
 scp gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida/wrfout_* .
 ```
-- Copiar archivos usando Windows
-    + Abrir una sesión ssh en PuTTY con las credenciales de usuario CEDIA
+- Copiar archivos desde Windows
+    + Renombrar los archivos para cambiar los dos puntos por guión bajo. Esto es necesario porque windows no permite que se use el caracter dos-puntos (:) en los nombres de los archivos
+
+```bash
+# Dentro del cluster
+cd /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
+for f in $(ls wrfout*); do mv $f "${f//:/_}"; done
+```
+
     + Abrir el `cmd` de Windows
 
 ```bash 
 cd c:/ruta/carpeta/instacion/putty #poner la ruta del directorio local
-pscp gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida/wrfout_* c:/ruta/a/directorio/local/.
+pscp.exe -i ruta/llave/privada.ppk gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida/wrfout_* c:/ruta/a/directorio/local/.
 ```
 
