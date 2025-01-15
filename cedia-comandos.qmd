@@ -241,6 +241,15 @@ Haremos desde el cluster de CEDIA
 
 ```bash
 cd /home/gabriel.gaona__ikiam.edu.ec/geodata
-mkdir IMERG
+mkdir imerg
+cd imerg
 wget https://raw.githubusercontent.com/gabrielvgaona/wrf-docker/refs/heads/main/postprocess/prov_data_fetch%2BdGPM_3IMERGHH_07_precipitation%2Bt20240615000000_20240617235959.txt
 ```
+
+```bash
+echo "machine urs.earthdata.nasa.gov login diegourdiales password Arlgi$493" > ~/.netrc
+chmod 600 ~/.netrc
+touch ~/.urs_cookies
+wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --keep-session-cookies -i prov_data_fetch+dGPM_3IMERGHH_07_precipitation+t20240615000000_20240617235959.txt
+```
+
