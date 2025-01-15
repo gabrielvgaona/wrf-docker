@@ -204,7 +204,7 @@ Dentro de la instancia `wrf` debes ejecutar el comando cp para hacer una copia d
 ```bash
 mkdir /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
 cd /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
-cp WRF_ins/WRF/run/wrfout_* .
+cp /WRF_ins/WRF/run/wrfout_* .
 ```
 
 ## Copiar desde host remoto (cedia) a la máquina local
