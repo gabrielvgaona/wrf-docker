@@ -221,7 +221,7 @@ scp gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:/home/gabriel.gaona__ikiam.edu.
     + Renombrar los archivos para cambiar los dos puntos por guión bajo. Esto es necesario porque windows no permite que se use el caracter dos-puntos (:) en los nombres de los archivos
 
 ```bash
-# Dentro del cluster
+# Dentro del cluster CEDIA
 cd /home/gabriel.gaona__ikiam.edu.ec/geodata/wrf-salida
 for f in $(ls wrfout*); do mv $f "${f//:/_}"; done
 ```
