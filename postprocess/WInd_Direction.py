@@ -9,14 +9,9 @@ from __future__ import print_function
 import os
 from glob import glob
 
-# This jupyter notebook command inserts matplotlib graphics in 
-# to the workbook
-%matplotlib inline
-
 # Modify these to point to your own files
 WRF_DIRECTORY = "/mnt/Data/geodata/ikiam/curso-wrf/wrfoutput" # mine is "/Users/misi1684/wrf_python_tutorial/wrf_tutorial_data"
 WRF_FILES = glob(os.path.join(WRF_DIRECTORY, "wrfout_d03_*"))
-
 
 #------------------------------------------------------
 # Turn off annoying warnings

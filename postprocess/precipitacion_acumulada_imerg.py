@@ -26,7 +26,7 @@ from wrf import getvar, to_np, ALL_TIMES
 
 
 # Cargar el archivo IMERG
-ds = xr.open_dataset("imerg_event_20240615_tena.nc", engine='netcdf4')
+ds = xr.open_dataset("/mnt/Data/Desarrollo/wrf-docker/postprocess/imerg_event_20240615_tena.nc", engine='netcdf4')
 
 
 theLats = ds['lat'].values

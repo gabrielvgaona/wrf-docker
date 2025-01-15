@@ -34,11 +34,6 @@ def multiple_wrf_files():
 file_paths = multiple_wrf_files()  # Lista de archivos WRF
 wrf_files = [Dataset(f) for f in file_paths]
 temp = getvar(wrf_files, "temp", timeidx=ALL_TIMES, units="degC")[1:48, :, :]
-#p = getvar(wrf_files, "pressure", timeidx=ALL_TIMES)[1:48, :, :]
-#temp_500 = interplevel(temp, p, 500)
-#temp_500 = temp_500.mean(dim='Time')
-#temp_500 = temp[:,1,:,:].mean(dim="Time")
-#temp_500._copy_attrs_from(temp)
 
 # Abrir el archivo NetCDF
 ncfile = Dataset("/mnt/Data/geodata/ikiam/curso-wrf/wrfoutput/wrfout_d01_2024-06-16_15:00:00")
@@ -47,10 +42,7 @@ ncfile = Dataset("/mnt/Data/geodata/ikiam/curso-wrf/wrfoutput/wrfout_d01_2024-06
 
 # Obtener datos del terreno
 temp = getvar(ncfile, "temp", timeidx=0, units="degC")[1:48, :, :]
-temp_500 = temp[30,:,:]
-#temp_500._copy_attrs_from(temp)
-#p = getvar(ncfile, "pressure", timeidx=0)
-#temp_500 = interplevel(temp, p, 600)
+temp_500 = temp[0,:,:]
 
 # Definir la línea de sección transversal
 cross_start = CoordPair(lat=-0.6, lon=-78.3)  # Tena
