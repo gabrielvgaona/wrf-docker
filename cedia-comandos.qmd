@@ -237,7 +237,10 @@ pscp.exe -i ruta/llave/privada.ppk gabriel.gaona__ikiam.edu.ec@hpc.cedia.edu.ec:
 
 Generar el listado de datos para descargar con GIOVANNI. En este caso hemos generado un listado y está disponible en el repositorio. Para obtener este listado puedes ejecutar lo siguiente:
 
+Haremos desde el cluster de CEDIA
+
 ```bash
-cd c:/ruta/a/directorio/local/
+cd /home/gabriel.gaona__ikiam.edu.ec/geodata
+mkdir IMERG
 wget https://raw.githubusercontent.com/gabrielvgaona/wrf-docker/refs/heads/main/postprocess/prov_data_fetch%2BdGPM_3IMERGHH_07_precipitation%2Bt20240615000000_20240617235959.txt
 ```
